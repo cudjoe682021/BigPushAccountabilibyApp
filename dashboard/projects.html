@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BigPush Dashboard — Projects</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>BigPush field dashboard</h1>
+    <div>
+      <span id="whoami"></span>
+      &nbsp;&nbsp;
+      <button class="secondary" id="logout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Projects</h2>
+      <p class="muted">Pick a project to log an inspection or review community reports.</p>
+      <div id="project-list">Loading…</div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>

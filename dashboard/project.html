@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BigPush Dashboard — Project</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1><a href="projects.html">BigPush field dashboard</a></h1>
+    <div>
+      <span id="whoami"></span>
+      &nbsp;&nbsp;
+      <button class="secondary" id="logout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <p><a href="projects.html" class="muted">&larr; All projects</a></p>
+
+    <div class="card">
+      <h2 id="project-name">Loading…</h2>
+      <p class="muted" id="project-meta"></p>
+      <span id="project-status-badge"></span>
+    </div>
+
+    <div class="card">
+      <h2>Log an inspection</h2>
+      <form id="inspection-form">
+        <label for="percentComplete">Percent complete</label>
+        <input type="number" id="percentComplete" name="percentComplete" min="0" max="100" required />
+
+        <label for="projectStatus">Update project status (optional)</label>
+        <select id="projectStatus" name="projectStatus">
+          <option value="">Leave unchanged</option>
+          <option value="ON_SCHEDULE">On schedule</option>
+          <option value="DELAYED">Delayed</option>
+          <option value="WORK_STOPPED">Work stopped</option>
+          <option value="NOT_RECENTLY_VERIFIED">Not recently verified</option>
+        </select>
+
+        <label for="delays">Delays (optional)</label>
+        <input type="text" id="delays" name="delays" />
+
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes"></textarea>
+
+        <div style="margin-top: 18px;">
+          <button type="submit">Save inspection</button>
+        </div>
+        <div class="error" id="inspection-error" style="display: none;"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Inspection history</h2>
+      <div id="inspection-history">Loading…</div>
+    </div>
+
+    <div class="card">
+      <h2>Community reports to review</h2>
+      <p class="muted">Unreviewed reports for this project. Verifying or dismissing a report never changes the project's own status — only a logged inspection does that.</p>
+      <div id="report-queue">Loading…</div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/project.js"></script>
+</body>
+</html>
