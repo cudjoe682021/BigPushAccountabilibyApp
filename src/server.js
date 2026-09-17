@@ -5,6 +5,7 @@ const projectsRouter = require('./routes/projects');
 const communityReportsRouter = require('./routes/communityReports');
 const authRouter = require('./routes/auth');
 const inspectionsRouter = require('./routes/inspections');
+const { ensureAdminSeeded } = require('./bootstrapAdmin');
 
 const app = express();
 app.use(express.json());
@@ -33,6 +34,10 @@ app.use('/api/inspections', inspectionsRouter);
 app.use('/dashboard', express.static(path.join(__dirname, '..', 'dashboard')));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Bigpush accountability API listening on port ${port}`);
-});
+ensureAdminSeeded()
+  .catch((err) => console.error('Admin bootstrap check failed:', err))
+  .finally(() => {
+    app.listen(port, () => {
+      console.log(`Bigpush accountability API listening on port ${port}`);
+    });
+  });
