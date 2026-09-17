@@ -33,28 +33,20 @@ both sign in with GitHub:
      it in step 3 below — change it later if you want)
    - `ADMIN_NAME` → your name as it should show in the dashboard
    - `JWT_SECRET` is generated for you automatically, leave it alone
-4. Click Apply. First deploy takes a few minutes — it runs
-   `npx prisma migrate deploy`, which creates all the tables in your new
-   Neon database.
+4. Click Apply. First deploy takes under a minute — it runs
+   `npx prisma db push`, which creates all the tables in your new Neon
+   database straight from `prisma/schema.prisma`.
 5. Once it's live, Render shows you the service URL, something like
    `https://bigpush-accountability-api.onrender.com`.
 
-## 3. Create your admin login
+Your admin login is created automatically the first time the server
+starts — no shell needed (Render's free tier doesn't include one anyway).
+On startup it checks whether any user exists yet; if not, it creates one
+from `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME`, bcrypt-hashed. It
+only ever does this once — later restarts leave existing accounts alone,
+so it's safe even if the service restarts on its own.
 
-The database has no users yet — nothing can log into the dashboard until
-you run the seed script once. In the Render dashboard, open the service's
-**Shell** tab and run:
-
-```
-npm run seed:admin
-```
-
-This reads `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` from the
-environment variables you already set and creates that account
-(bcrypt-hashed). It's safe to run again later — it updates the same
-account rather than creating a duplicate.
-
-## 4. Try it
+## 3. Try it
 
 - Dashboard: `https://<your-service>.onrender.com/dashboard` — log in
   with the admin email/password from step 2.
@@ -65,7 +57,7 @@ account rather than creating a duplicate.
   to the live tracker's URL and roads that match a seeded project by
   name will show a field-verification badge.
 
-## 5. Point the mobile app and the public tracker at it
+## 4. Point the mobile app and the public tracker at it
 
 - Mobile app: set `apiBaseUrl` in `mobile/app.json` to your Render URL.
 - Public tracker: once you're happy with it, update the default in
