@@ -1,0 +1,186 @@
+:root {
+  --bg: #0f1115;
+  --panel: #161922;
+  --border: #262b36;
+  --text: #e6e8ec;
+  --muted: #9aa2b1;
+  --accent: #3b82f6;
+  --green: #22c55e;
+  --orange: #f59e0b;
+  --red: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+header a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+#whoami {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.login-card {
+  max-width: 360px;
+  margin: 80px auto;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #0c0e13;
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 16px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+button.danger {
+  background: var(--red);
+}
+
+.error {
+  color: var(--red);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.project-row:last-child {
+  border-bottom: none;
+}
+
+.project-row:hover {
+  color: var(--accent);
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-on-schedule { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+.badge-delayed { background: rgba(245, 158, 11, 0.15); color: var(--orange); }
+.badge-work-stopped { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+.badge-not-recently-verified { background: rgba(154, 162, 177, 0.15); color: var(--muted); }
+
+h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.report-item {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+
+.report-item:last-child {
+  border-bottom: none;
+}
+
+.report-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.inspection-item {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+.inspection-item:last-child {
+  border-bottom: none;
+}
