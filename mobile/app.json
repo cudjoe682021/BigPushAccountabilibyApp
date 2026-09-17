@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "BigPush Watchdog",
+    "slug": "bigpush-watchdog",
+    "version": "0.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "extra": {
+      "apiBaseUrl": "https://YOUR-DEPLOYED-API.example.com"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "BigPush Watchdog uses your location to attach it to reports you submit about nearby road projects."
+      }
+    },
+    "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+    }
+  }
+}
