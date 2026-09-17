@@ -1,0 +1,26 @@
+# Render Blueprint for the BigPush Accountability API + dashboard.
+#
+# This deploys the Express API (and the /dashboard static files it serves)
+# to Render's free web service tier. It does NOT provision a database here
+# on purpose — Render's own free Postgres expires 30 days after creation
+# and is deleted 14 days after that. Use a free Neon Postgres database
+# instead (its free tier does not expire) and paste its connection string
+# in as DATABASE_URL when Render prompts for it. See DEPLOY.md.
+services:
+  - type: web
+    name: bigpush-accountability-api
+    env: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy
+    startCommand: node src/server.js
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        sync: false
