@@ -1,0 +1,128 @@
+// Ghana Road Accountability Platform - Phase 1 data foundation
+// Five entities: Contractor, Project, Inspection, CommunityReport, Alert.
+// See the project plan doc for the full data model and visibility rules.
+
+generator client {
+provider = "prisma-client-js"
+}
+
+datasource db {
+provider = "postgresql"
+url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+ON_SCHEDULE
+DELAYED
+WORK_STOPPED
+NOT_RECENTLY_VERIFIED
+}
+
+enum ReportCategory {
+WORK_STOPPED
+NO_WORKERS
+ROAD_DAMAGED
+CONTRACTOR_WORKING
+OTHER
+}
+
+enum ReportReviewStatus {
+UNREVIEWED
+VERIFIED
+DISMISSED
+}
+
+enum AlertStatus {
+OPEN
+ACKNOWLEDGED
+RESOLVED
+}
+
+model Contractor {
+id               String    @id @default(uuid())
+name             String
+registrationInfo String?
+createdAt        DateTime  @default(now())
+updatedAt        DateTime  @updatedAt
+
+projects Project[]
+
+@@map("contractors")
+}
+
+model Project {
+id                  String        @id @default(uuid())
+name                String
+location            String
+region              String?
+latitude            Float?
+longitude           Float?
+contractorId        String
+contractor          Contractor    @relation(fields: [contractorId], references: [id])
+contractValueGhs    Decimal?      @db.Decimal(14, 2)
+startDate           DateTime?
+expectedCompletion  DateTime?
+status              ProjectStatus @default(NOT_RECENTLY_VERIFIED)
+sourceReference      String?      // e.g. RTI / Fourth Estate procurement record id
+createdAt           DateTime      @default(now())
+updatedAt           DateTime      @updatedAt
+
+inspections       Inspection[]
+communityReports  CommunityReport[]
+alerts            Alert[]
+
+@@index([status])
+@@index([region])
+@@map("projects")
+}
+
+model Inspection {
+id               String   @id @default(uuid())
+projectId        String
+project          Project  @relation(fields: [projectId], references: [id])
+officerId        String
+officerName      String
+inspectionDate   DateTime @default(now())
+percentComplete  Int
+delays           String?
+notes            String?
+mediaUrls        String[] // Cloudinary URLs
+createdAt        DateTime @default(now())
+
+@@index([projectId])
+@@map("inspections")
+}
+
+model CommunityReport {
+id             String              @id @default(uuid())
+projectId      String
+project        Project             @relation(fields: [projectId], references: [id])
+category       ReportCategory
+latitude       Float
+longitude      Float
+reporterName   String?
+reporterPhone  String?
+deviceFingerprint String?          // used to de-duplicate reports for alert thresholds
+mediaUrls      String[]            // Cloudinary URLs
+reviewStatus   ReportReviewStatus  @default(UNREVIEWED)
+reviewedById   String?
+reviewNote     String?
+submittedAt    DateTime            @default(now())
+
+@@index([projectId, category, submittedAt])
+@@map("community_reports")
+}
+
+model Alert {
+id           String      @id @default(uuid())
+projectId    String
+project      Project     @relation(fields: [projectId], references: [id])
+triggerType  String      // e.g. "report_threshold"
+threshold    Int
+status       AlertStatus @default(OPEN)
+createdAt    DateTime    @default(now())
+resolvedAt   DateTime?
+
+@@index([projectId, status])
+@@map("alerts")
+}
