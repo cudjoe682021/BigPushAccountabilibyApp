@@ -11,7 +11,17 @@ services:
     name: bigpush-accountability-api
     env: node
     plan: free
-    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy
+    # `prisma db push`, not `prisma migrate deploy`: this repo has
+    # prisma/schema.prisma but no prisma/migrations directory (it was
+    # never possible to generate one from the sandbox this project was
+    # built in — Prisma's engine-binary download is blocked there), so
+    # there's no migration history for `migrate deploy` to apply. `db
+    # push` syncs the database straight from schema.prisma instead. If
+    # this project grows real users, switch to `prisma migrate dev`
+    # from a machine that can reach binaries.prisma.sh, commit the
+    # generated prisma/migrations folder, and change this back to
+    # `prisma migrate deploy` for safer, reviewable schema changes.
+    buildCommand: npm install && npx prisma generate && npx prisma db push
     startCommand: node src/server.js
     envVars:
       - key: DATABASE_URL
